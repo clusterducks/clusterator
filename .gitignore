@@ -13,3 +13,7 @@ Makefile.in
 /missing
 /stamp-h1
 .*.swp
+Makefile
+config.log
+config.status
+src/Makefile
