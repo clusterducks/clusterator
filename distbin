@@ -1,0 +1,8 @@
+#!/bin/bash
+
+./configure
+make
+make DESTDIR=$PWD/dist install
+cd $PWD/dist
+find . -type f -print > ../files.lst
+tar zcvf ../linode-advizex_0.1_all.tar.gz `cat ../files.lst`

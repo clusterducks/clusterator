@@ -1,17 +1,8 @@
-#                                               -*- Autoconf -*-
-# Process this file with autoconf to produce a configure script.
-
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-
-# Checks for programs.
-
-# Checks for libraries.
-
-# Checks for header files.
-
-# Checks for typedefs, structures, and compiler characteristics.
-
-# Checks for library functions.
-
+AC_INIT([clusterator], [0.1], [bugs@raspberrypirates.com])
+AM_INIT_AUTOMAKE([foreign std-options check-news dist-zip tar-pax])
+AC_CONFIG_FILES([
+                 src/Makefile
+                 Makefile
+                 ])
 AC_OUTPUT
