@@ -1,6 +1,6 @@
-# linode-advizex tools
+# Clusterator tools
 
-Tools used by AdvizeX to provision on Linode
+Tools used to build and run Clusterator
 
 ## Hacking on the tools
 
