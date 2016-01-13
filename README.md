@@ -2,6 +2,13 @@
 
 Tools used to build and run Clusterator
 
+## TL;DR
+
+If you just want to build the damn package
+
+    $ ./bin/build
+
+Now you have have Debian package in your parent directory
 ## Hacking on the tools
 
 This project uses a standard GNU Autotools build system.  'nough said.
@@ -36,6 +43,7 @@ This will ensure that your distribution passes all the standard checks.  For exa
 
 ## Deb package
 To build a Debian package run
+
     $ dpkg-buildpackage
 
 ## Docker
