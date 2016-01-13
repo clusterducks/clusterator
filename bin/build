@@ -7,4 +7,4 @@ autoreconf --install
 ./configure --prefix=$PWD/build 
 
 # build the DEB. Debhelper will run the autotools build first.
-dpkg-buildpackage -us -uc -aall
+dpkg-buildpackage -us -uc
