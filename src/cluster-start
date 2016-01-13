@@ -1,22 +1,5 @@
 #!/bin/bash
 
-prepare () {
-
-echo "update package lists"
-currenttime=$(date +"%s")
-updatetime=$(stat -c %Y /var/cache/apt/)
-
-delta=`expr $currenttime - $updatetime`
-timeout=`expr 60 \* 60`
-
-if [ $delta > $timeout ]; then
-apt-get update -qq
-fi
-
-echo "install required packages"
-apt-get install -yqq vlan avahi-utils
-}
-
 createvlan () {
 echo "create vlan with tag 200 on eth0"
 ip link add link eth0 name eth0.200 type vlan id 200
@@ -205,7 +188,6 @@ EOM
 
 fixrouting
 echo -e "#---------\n# prepare\n#---------"
-prepare
 createvlan
 configavahi
 
