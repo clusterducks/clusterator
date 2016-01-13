@@ -2,14 +2,13 @@ Source: clusterator
 Section: misc
 Priority: optional
 Maintainer: Mike Sandman <mike@thesandmans.com>
-Build-Depends: debhelper (>= 8.0.0), autotools-dev
+Build-Depends: debhelper (>= 8.0.0), autotools-dev, autoconf, automake
 Standards-Version: 3.9.4
-Homepage: <insert the upstream URL, if relevant>
 Vcs-Git: git://github.com/n8behavior/clusterator.git
 Vcs-Browser: http://github.com/n8behavior/clusterator
 
 Package: clusterator
 Architecture: all
-Depends: vlan, avahi-utils, ${misc:Depends}
+Depends: vlan, avahi-utils, dnsmasq, ${misc:Depends}
 Description: The clusterator
  Clusterates your servers.
