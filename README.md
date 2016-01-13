@@ -40,8 +40,9 @@ To build a Debian package run
 
 ## Docker
 
+_NOTE: Dockerized build not yet working_
+
 There are lots of ways to build a Docker image from an Autotools.  For convenience you can use the `distbin` script in this project
 
     $ distbin
-    $ Docker build -t linode-advizex .
-
+    $ Docker build -t clusterator .
