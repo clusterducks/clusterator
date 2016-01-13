@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Generate configure from configure.ac and add needed files
+autoreconf --install
+
+# prefix is optional but handy for testing the build
+./configure --prefix=$PWD/build 
+
+# build the DEB. Debhelper will run the autotools build first.
+dpkg-buildpackage -us -uc -aall
