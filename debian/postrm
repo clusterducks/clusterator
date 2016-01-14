@@ -1,5 +1,9 @@
 #!/bin/sh
+
+echo '========================================='
 echo "Running PostRm--> $0 $@"
-echo "========================================="
-echo "..."
-echo "============================ end PostRm ="
+echo '========================================='
+dpkg -r docker-engine
+rm -rf /usr/bin/docker-machine
+rm -rf /usr/bin/docker-compose
+echo '============================ end PostRm ='
