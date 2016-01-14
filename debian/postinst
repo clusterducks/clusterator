@@ -7,6 +7,9 @@ DOCKER_COMPOSE_VER='1.5.2'
 echo "\nRunning PostInst--> $0 $@"
 echo '========================================='
 
+echo '\n==== Installing linux-image-extra ====='
+apt-get install -y linux-image-extra-`uname -r`
+
 echo '\n====== Installing Docker Engine ======='
 curl https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_$DOCKER_ENGINE_VER~"$DISTRIB_CODENAME"_amd64.deb > /tmp/docker-engine.deb
 dpkg -i /tmp/docker-engine.deb

@@ -9,6 +9,6 @@ Vcs-Browser: http://github.com/n8behavior/clusterator
 
 Package: clusterator
 Architecture: all
-Depends: vlan, avahi-utils, dnsmasq, ${misc:Depends}
+Depends: vlan, avahi-utils, dnsmasq, python-pip, ${misc:Depends}
 Description: The clusterator
  Clusterates your servers.
