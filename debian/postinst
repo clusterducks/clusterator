@@ -1,8 +1,9 @@
 #!/bin/sh
 . /etc/lsb-release
 DOCKER_ENGINE_VER='1.9.1-0'
+DOCKER_MACHINE_VER='0.5.6'
+DOCKER_COMPOSE_VER='1.5.2'
 
-echo '========================================='
 echo "\nRunning PostInst--> $0 $@"
 echo '========================================='
 
@@ -12,12 +13,15 @@ dpkg -i /tmp/docker-engine.deb
 rm -rf /tmp/docker-engine.deb
 
 echo '\n====== Installing Docker Machine ======'
-curl -L https://github.com/docker/machine/releases/download/v0.5.6/docker-machine_linux-amd64 > /usr/bin/docker-machine
+curl -L https://github.com/docker/machine/releases/download/v$DOCKER_MACHINE_VER/docker-machine_linux-amd64 > /usr/bin/docker-machine
 chmod +x /usr/bin/docker-machine
+
+echo '\n====== Installing Docker Compose ======'
+curl -L https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VER/docker-compose-`uname -s`-`uname -m` > /usr/bin/docker-compose
+chmod +x /usr/bin/docker-compose
 
 echo '\n========== Enabling Services =========='
 systemctl restart docker
 systemctl enable cluster-start.service
 systemctl enable cluster-stop.service
 echo '========================== end PostInst ='
-
