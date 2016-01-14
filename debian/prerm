@@ -1,0 +1,8 @@
+#!/bin/sh
+echo "Running PreRm--> $0 $@"
+echo "========================================="
+systemctl stop cluster-start.service
+systemctl stop cluster-stop.service
+systemctl stop docker
+/usr/bin/cluster-stop
+echo "============================= end PreRm ="
