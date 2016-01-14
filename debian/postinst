@@ -1,7 +1,23 @@
 #!/bin/sh
-echo "Running PostInst--> $0 $@"
-echo "========================================="
-systemctl docker restart
+. /etc/lsb-release
+DOCKER_ENGINE_VER='1.9.1-0'
+
+echo '========================================='
+echo "\nRunning PostInst--> $0 $@"
+echo '========================================='
+
+echo '\n====== Installing Docker Engine ======='
+curl https://apt.dockerproject.org/repo/pool/main/d/docker-engine/docker-engine_$DOCKER_ENGINE_VER~"$DISTRIB_CODENAME"_amd64.deb > /tmp/docker-engine.deb
+dpkg -i /tmp/docker-engine.deb
+rm -rf /tmp/docker-engine.deb
+
+echo '\n====== Installing Docker Machine ======'
+curl -L https://github.com/docker/machine/releases/download/v0.5.6/docker-machine_linux-amd64 > /usr/bin/docker-machine
+chmod +x /usr/bin/docker-machine
+
+echo '\n========== Enabling Services =========='
+systemctl restart docker
 systemctl enable cluster-start.service
 systemctl enable cluster-stop.service
-echo "========================== end PostInst ="
+echo '========================== end PostInst ='
+
