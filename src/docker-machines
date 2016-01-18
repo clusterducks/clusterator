@@ -1,0 +1,26 @@
+#!/bin/bash -e
+
+[ "${BASH_SOURCE[0]}" != "${0}" ] && SOURCED="sourced"
+
+grep_docker_machine_names() {
+  docker-machine ls | grep $1 | awk '{print $1}'
+}
+
+# only try to run a command on all found machines if not sourced
+if [ "$SOURCED" != "sourced" ]; then
+if [ "${1}" = "" ]; then
+echo "Arguments required"
+exit 1
+fi
+
+PATTERN=$1
+shift
+echo $PATTERN
+
+for machine in `grep_docker_machine_names $PATTERN`; do
+  echo $machine
+  eval "$(docker-machine env $machine)"
+  $@
+done
+fi
+
