@@ -1,0 +1,14 @@
+consul:
+  image: progrium/consul
+  restart: always
+  ports:
+    - "8400:8400"
+    - "8500:8500"
+    - "53:53"
+    - "8301:8301"
+    - "8302:8302"
+  net: host
+  log_opt:
+    max-size: "10m"
+    max-file: "5"
+  command: -server -bind ${CONSUL_BIND_ADDR} ${CONSUL_QUORUM_OR_JOIN}
