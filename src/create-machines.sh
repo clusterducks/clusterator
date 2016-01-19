@@ -14,6 +14,9 @@
 ##     [] Remove API keys from this file, move into ENV variables
 ## ================================================================
 
+# TODO source shflags using make expansion
+source @BASHLIBS@/shflags
+
 # set fonts for help highlights
 NORM=`tput sgr0`
 BOLD=`tput bold`
