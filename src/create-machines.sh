@@ -153,7 +153,7 @@ FULLNAME="$NAME.$PROVIDER.$REGION"
 
 echo $FULLNAME.$QUANTITY
 
-create docker host nodes
+#create docker host nodes
 for ((a=1; a <= QUANTITY ; a++)) do
   create_machine $PROVIDER $REGION $SIZE $FULLNAME $a
 done
