@@ -5,6 +5,7 @@ echo 'required params: <docker-machine name pattern> <start|stop>'
 exit 1
 fi
 
+export CLUSTER_NAME=barney
 MACHINE_PATTERN=$1
 COMMAND=$2
 
@@ -25,12 +26,12 @@ for machine in ${MACHINE_NAMES[@]}; do
   fi
 
   echo $machine
-  export CONSUL_BIND_ADDR=$(docker-machine ip $machine)
-  echo $CONSUL_BIND_ADDR
+  export MACHINE_IP=$(docker-machine ip $machine)
+  echo $MACHINE_IP
   echo $CONSUL_QUORUM_OR_JOIN
 
   eval "$(docker-machine env $machine)"
-  docker-compose -f @ADATADIR@/docker-compose.yml up -d consul
+  docker-compose -f @ADATADIR@/docker-compose.yml up -d
 done
 
 }

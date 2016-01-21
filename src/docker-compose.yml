@@ -11,4 +11,14 @@ consul:
   log_opt:
     max-size: "10m"
     max-file: "5"
-  command: -server -bind ${CONSUL_BIND_ADDR} ${CONSUL_QUORUM_OR_JOIN}
+  command: -server -bind ${MACHINE_IP} ${CONSUL_QUORUM_OR_JOIN}
+swarm-manager:
+  image: swarm
+  ports:
+    - 2378:2375
+  command: manage --replication --advertise ${MACHINE_IP}:2378 consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+swarm-agent:
+  image: swarm
+  command: join --advertise ${MACHINE_IP}:2375 consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+
+
