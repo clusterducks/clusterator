@@ -54,3 +54,10 @@ There are lots of ways to build a Docker image from an Autotools.  For convenien
 
     $ distbin
     $ Docker build -t clusterator .
+
+## Creating Nodes and Starting Consul
+
+    $ create-machines
+    ...
+    $ start-consul dh.vb.local start
+
