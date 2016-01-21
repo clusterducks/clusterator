@@ -1,4 +1,6 @@
-dist_bin_SCRIPTS = create-machines destroy-machines start-consul docker-machines
+dist_bin_SCRIPTS = docker-machines
+bin_SCRIPTS = create-machines destroy-machines start-consul
+EXTRA_DIST = start-consul.sh *-machines.sh docker-compose.yml *.service
 
 composedir = @datadir@/@PACKAGE@
 compose_DATA = docker-compose.yml
