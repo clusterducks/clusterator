@@ -1,4 +1,4 @@
-dist_bin_SCRIPTS = cluster-start cluster-stop create-machines start-consul docker-machines
+dist_bin_SCRIPTS = create-machines start-consul docker-machines
 data_DATA = docker-compose.yml
 
 systemddir = @sysconfdir@/systemd/system
