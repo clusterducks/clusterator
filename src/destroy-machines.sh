@@ -21,6 +21,7 @@ REV=`tput smso`
 DEFINE_string 'name' 'dh' 'full name (or suffix before 000X) of the docker host to remove' 'n'
 DEFINE_string 'provider' 'vb' 'provider identifier (vb=virtual box, do=digital ocean, ssh=generic, etc.)' 'p'
 DEFINE_string 'quantity' '1' 'number of docker hosts to delete (will start from 0001, up to number you specify)' 'q'
+DEFINE_string 'region' 'local' 'region, or suffix for the name .nyc3, .local, etc.' 'r'
 
 # parse the command-line
 FLAGS "$@" || exit 1
@@ -33,15 +34,10 @@ function destroy_machines {
   local NAME=$1
   local PROVIDER=$2
   local QUANTITY=$3
-
-  if [ "$PROVIDER" == "vb" ]; then
-    SUFFIX=".local"
-  else
-    SUFFIX=""
-  fi
+  local REGION=$4
 
   if [[ $QUANTITY -eq 1 ]]; then
-    destroy_machine "0001".$NAME.$PROVIDER$SUFFIX
+    destroy_machine "0001".$NAME.$PROVIDER.$REGION
   else
     for ((a=1; a <= QUANTITY ; a++)) do
       PREFIX=""
@@ -64,7 +60,7 @@ function destroy_machines {
           ;;
       esac
 
-      destroy_machine "$PREFIX.$NAME.$PROVIDER$SUFFIX"
+      destroy_machine "$PREFIX.$NAME.$PROVIDER.$REGION"
     done
   fi  
 }
@@ -79,22 +75,26 @@ function destroy_machine {
 NAME=""
 PROVIDER="vb"
 QUANTITY=0
+REGION="local"
 
 echo ""
 echo "FLAGS:"
 echo "- Name    : ${FLAGS_name}"
 echo "- Provider: ${FLAGS_provider}"
 echo "- Quantity: ${FLAGS_quantity}"
+echo "- Region  : ${FLAGS_region}"
 
 # update variables with submitted data
 if [[ "${FLAGS_name}" ]]; then NAME="${FLAGS_name}"; fi
 if [[ "${FLAGS_provider}" ]]; then PROVIDER="${FLAGS_provider}"; fi
 if [[ "${FLAGS_quantity}" ]]; then QUANTITY="${FLAGS_quantity}"; fi
+if [[ "${FLAGS_region}" ]]; then REGION="${FLAGS_region}"; fi
 
 echo ""
 echo "New Vars:"
 echo "- Name    : $NAME"
 echo "- Provider: $PROVIDER"
 echo "- Quantity: $QUANTITY"
+echo "- Region  : $REGION"
 
-destroy_machines $NAME $PROVIDER $QUANTITY
+destroy_machines $NAME $PROVIDER $QUANTITY $REGION
