@@ -14,11 +14,29 @@ consul:
   command: -server -bind ${MACHINE_IP} ${CONSUL_QUORUM_OR_JOIN}
 swarm-manager:
   image: swarm
+  restart: always
   ports:
     - 2378:2375
-  command: manage --replication --advertise ${MACHINE_IP}:2378 consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+  volumes:
+    - ${DOCKER_MACHINE_CERTS}:/docker-machine-certs
+  command: >
+    manage
+    --replication
+    --advertise ${MACHINE_IP}:2378
+    --tlsverify
+    --tlscacert=/docker-machine-certs/ca.pem
+    --tlscert=/docker-machine-certs/server.pem
+    --tlskey=/docker-machine-certs/server-key.pem
+    consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+  log_opt:
+    max-size: "10m"
+    max-file: "5"
 swarm-agent:
   image: swarm
-  command: join --advertise ${MACHINE_IP}:2375 consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+  restart: always
+  command: join --advertise ${MACHINE_IP}:2376 consul://${MACHINE_IP}:8500/${CLUSTER_NAME}
+  log_opt:
+    max-size: "10m"
+    max-file: "5"
 
 

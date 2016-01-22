@@ -5,9 +5,14 @@ echo 'required params: <docker-machine name pattern> <start|stop>'
 exit 1
 fi
 
-export CLUSTER_NAME=barney
 MACHINE_PATTERN=$1
 COMMAND=$2
+
+# defaults for docker-compose.yml
+export MACHINE_IP=""
+export CONSUL_QUORUM_OR_JOIN=""
+export CLUSTER_NAME=barney
+export DOCKER_MACHINE_CERTS=/var/lib/boot2docker
 
 . @BARNEYDIR@/docker-machines
 MACHINE_NAMES=($(grep_docker_machine_names $MACHINE_PATTERN | awk '{print $1}'))
