@@ -12,7 +12,6 @@
 ##     [] Do some error checking for provided argument values
 ##     [] Create better help printout (default one is kindof janky)
 ##     [] Read API Keys for services from Environment Variables
-##     [] We can create only 1 docker host when using SSH method
 ## ================================================================
 
 # source shflags
@@ -20,7 +19,7 @@ source @BASHLIBS@/shflags
 
 DEFINE_string 'name' 'dh' 'name prefix to be used in the full docker host name' 'n'
 DEFINE_string 'provider' 'vb' 'provider identifier on which to spin up docker hosts -> vb = VirtualBox, do = Digital Ocean, aws = Amazon Web Services, ssh = Generic Linux Host (via SSH)' 'p'
-DEFINE_string 'ip' '127.0.0.1' 'used only with -p as the IP address of the Linux host' 'i'
+DEFINE_string 'ip' '127.0.0.1' 'used only with -p as the IP address of the Linux host (csv for more than one)' 'i'
 DEFINE_string 'user' 'root' 'used only with -p as the SSH user' 'u'
 DEFINE_string 'key' '~/.ssh/id_rsa' 'used only with -p as the path to the SSH key to log into the Linux host' 'k'
 DEFINE_string 'quantity' '3' 'number of docker hosts to spin up' 'q'
@@ -147,12 +146,36 @@ echo "- QUANTITY: $QUANTITY"
 echo "- REGION  : $REGION"
 echo "- VM SIZE : $SIZE"
 
+FULLNAME="$NAME.$PROVIDER.$REGION"
+
+# if ssh, let's attack this differently
+if [ "$PROVIDER" == "ssh" ]; then
+
+# parse CSV IP's into an array for easier management
+IFS=',' read -r -a IPARRAY <<< "${FLAGS_ip}"
+
+# update quantity
+QUANTITY=${#IPARRAY[@]}
+
 echo ""
 echo "Spinning up Docker Cluster: 0001-$QUANTITY.$NAME.$PROVIDER.$REGION"
 
-FULLNAME="$NAME.$PROVIDER.$REGION"
+# go through all IP's
+COUNT=0
+for currentIp in "${IPARRAY[@]}"
+do
+    ((COUNT++))
+    echo "- Provisionging docker to: $currentIp (node $COUNT/$QUANTITY)"
+    create_machine $PROVIDER $REGION $SIZE $FULLNAME $currentIp $SSH_KEY $SSH_USER $COUNT
+done
 
-#create docker host nodes
+else
+
+#create docker host nodes the usual way
 for ((i=1; i <= QUANTITY ; i++)) do
+  echo "- Provisioning docker to node #$i/$QUANTITY"
   create_machine $PROVIDER $REGION $SIZE $FULLNAME $IP_ADDRESS $SSH_KEY $SSH_USER $i
 done
+
+fi
+
