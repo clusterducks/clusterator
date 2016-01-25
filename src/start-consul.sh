@@ -12,7 +12,7 @@ COMMAND=$2
 export MACHINE_IP=""
 export CONSUL_QUORUM_OR_JOIN=""
 export CLUSTER_NAME=barney
-export DOCKER_MACHINE_CERTS=/var/lib/boot2docker
+export DOCKER_MACHINE_CERTS=""
 
 . @BARNEYDIR@/docker-machines
 MACHINE_NAMES=($(grep_docker_machine_names $MACHINE_PATTERN | awk '{print $1}'))
@@ -34,6 +34,11 @@ for machine in ${MACHINE_NAMES[@]}; do
   export MACHINE_IP=$(docker-machine ip $machine)
   echo $MACHINE_IP
   echo $CONSUL_QUORUM_OR_JOIN
+  if [ "" !=  "$(docker-machine inspect $machine | grep 'DriverName.*virtualbox')" ]; then
+    export DOCKER_MACHINE_CERTS=/var/lib/boot2docker
+  else
+    export DOCKER_MACHINE_CERTS=/etc/docker
+  fi
 
   eval "$(docker-machine env $machine)"
   docker-compose -f @ADATADIR@/docker-compose.yml up -d
