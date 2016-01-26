@@ -16,7 +16,7 @@ swarm-manager:
   image: swarm
   restart: always
   ports:
-    - 2378:2375
+    - 3376:2375
   volumes:
     - ${DOCKER_MACHINE_CERTS}:/docker-machine-certs
   command: >
